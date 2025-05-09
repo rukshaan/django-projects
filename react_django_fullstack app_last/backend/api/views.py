@@ -31,3 +31,7 @@ class NoteDelete(generics.DestroyAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]  # Only authenticated users can access this view
+        
+    def get_queryset(self):  # Override the get_queryset method to filter the query_set
+        user=self.request.user
+        return Note.objects.filter(author=self.request.user)  # Filter notes by the logged-in user
